@@ -12,19 +12,20 @@ $router->get('/', function () {
 
     $client = new Client();
     try {
-        $request = $client->request('GET', 'https://api.github.com/users/silasstoffel-faker');
+        $request = $client->request(
+            'GET',
+            'https://api.github.com/users/silasstoffel-faker'
+        );
     } catch (GuzzleHttp\Exception\ClientException $e) {
         if ($e->hasResponse()) {
             echo 'ClientException: ', $e->getResponse()->getBody();
         }
     } catch (GuzzleHttp\Exception\ServerException $e) {
-
     } catch (RequestException $e) {
         if ($e->hasResponse()) {
-            echo 'RequestException: ',$e->getResponse()->getBody();
+            echo 'RequestException: ', $e->getResponse()->getBody();
         }
     }
-
 });
 $router->get('/ping', 'Core\PingController@handle');
 
@@ -33,7 +34,11 @@ $router->get('/login', 'Core\LoginController@handle');
 
 // Protected routes
 $v1 = ['prefix' => '/v1', 'middleware' => null];
-$router->group($v1, function () use($router) {
+$router->group($v1, function () use ($router) {
+    $router->group(['prefix' => '/products'], function () use ($router) {
+        $router->get('/', 'Core\ProductController@all');
+        $router->post('/', 'Core\ProductController@store');
+    });
 
     // Endpoint examples
     $router->group(['prefix' => '/endpoint'], function () use ($router) {
@@ -43,7 +48,4 @@ $router->group($v1, function () use($router) {
         $router->put('/{id}', 'EndpointController@update');
         $router->delete('/{id}', 'EndpointController@delete');
     });
-
-
-
 });

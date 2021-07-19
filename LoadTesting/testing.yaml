@@ -1,0 +1,18 @@
+config:
+  target: http://localhost:8182/v1
+  phases:
+    - duration: 1
+      arrivalRate: 1
+scenarios:
+  - flow:
+      - get:
+          url: '/products'
+          expect:
+            - statusCode: 200
+
+      - post:
+          url: '/products'
+          json:
+            title: 'new-product'
+          expect:
+            - statusCode: 201
