@@ -13,6 +13,10 @@ scenarios:
       - post:
           url: '/products'
           json:
-            title: 'new-product'
+            name: 'artillery - Test Nome'
+            description: 'artillery - Test Descrição'
+            sku: 'artillery - Test sku'
+            category_id: 'artillery - Test Categoria'
+            price: 'artillery - Test Preço'
           expect:
             - statusCode: 201

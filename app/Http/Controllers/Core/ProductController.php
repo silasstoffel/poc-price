@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Pricing\Entities\Product;
+use Illuminate\Support\Str;
 
 class ProductController extends Controllers\Controller
 {
@@ -29,14 +30,16 @@ class ProductController extends Controllers\Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            if (!$request->has('title')) {
-                return response()->json(
-                    [
-                        'message' => 'Título é um campo obrigatório',
-                    ],
-                    422
-                );
-            }
+            Product::create([
+                'id' => Str::uuid()->toString(),
+                'name' => $request->get('name'),
+                'description' => $request->get('description'),
+                'sku' => $request->get('sku'),
+                'category_id' => $request->get('category_id'),
+                'price' => $request->get('price'),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
 
             return response()->json([
                 'message' => $request->all(),
