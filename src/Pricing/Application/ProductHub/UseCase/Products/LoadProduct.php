@@ -6,9 +6,9 @@ use Pricing\Entities\ProductHub\Product;
 
 class LoadProduct
 {
-    private ProductRepository $productRepository;
+    private ProductRepositoryInterface $productRepository;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
     }

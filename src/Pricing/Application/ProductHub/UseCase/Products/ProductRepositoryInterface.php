@@ -4,7 +4,7 @@ namespace Pricing\Application\ProductHub\UseCase\Products;
 
 use Pricing\Entities\ProductHub\Product;
 
-interface ProductRepository
+interface ProductRepositoryInterface
 {
     /**
      * Find all products.

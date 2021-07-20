@@ -1,0 +1,14 @@
+config:
+  target: http://localhost:8182
+#  http:
+#    timeout: 5
+  phases:
+    - duration: 7
+      arrivalRate: 20
+scenarios:
+  - name: 'Load Products - Without ORM + Entity'
+    flow:
+      - get:
+          url: '/products/take-3'
+          expect:
+            - statusCode: 200

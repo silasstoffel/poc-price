@@ -3,28 +3,20 @@
 namespace Pricing\Infra\Database\Repositories\Eloquent\ProductHub;
 
 use DateTimeImmutable;
+use Illuminate\Support\Facades\DB;
 use Pricing\Application\ProductHub\UseCase\Products\ProductRepositoryInterface;
 use Pricing\Entities\ProductHub\Product;
-use App\Models\Product as ProductModel;
 
-class ProductRepository implements ProductRepositoryInterface
+
+class ProductRepository3 implements ProductRepositoryInterface
 {
-    private ProductModel $model;
 
-    public function __construct(ProductModel $model)
-    {
-        $this->model = $model;
-    }
-
-    /**
-     * @return Product[]
-     */
     public function findAll(): array
     {
-        $products = $this->model::all();
+        $products = DB::table('products')->get()->toArray();
         $items = [];
         foreach ($products as $product) {
-            $p = new Product(
+            $items[] = new Product(
                 $product->id,
                 $product->name,
                 $product->description,
@@ -34,7 +26,6 @@ class ProductRepository implements ProductRepositoryInterface
                 new DateTimeImmutable($product->created_at),
                 new DateTimeImmutable($product->updated_at)
             );
-            $items[] = $p;
         }
         return $items;
     }

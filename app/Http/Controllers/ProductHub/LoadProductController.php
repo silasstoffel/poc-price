@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Pricing\Application\ProductHub\UseCase\Products\LoadProduct;
 use Pricing\Infra\Database\Repositories\Eloquent\ProductHub\ProductRepository;
 use Pricing\Infra\Database\Repositories\Eloquent\ProductHub\ProductRepository2;
+use Pricing\Infra\Database\Repositories\Eloquent\ProductHub\ProductRepository3;
 
 class LoadProductController extends Controller
 {
@@ -48,6 +49,32 @@ class LoadProductController extends Controller
         /**@var \Pricing\Entities\ProductHub\Product[] */
         $products = $useCase->execute();
 
+        $end = microtime(true);
+        $memory = memory_get_usage(true);
+        $memoryPeak = memory_get_peak_usage(true);
+        return $this->responseToJsonSuccess([
+            'start' => $start,
+            'end' => $end,
+            'seconds' => $end - $start,
+            'products_count' => count($products),
+            'memory' => $memory,
+            'memory_peak' => $memoryPeak
+        ]);
+    }
+
+    public function take3(): JsonResponse
+    {
+        $start = microtime(true);
+
+        $productRepository = new ProductRepository3();
+        $useCase = new LoadProduct($productRepository);
+        /**@var \Pricing\Entities\ProductHub\Product[] */
+        $results = $useCase->execute();
+
+        $products = [];
+        foreach ($results as $result) {
+            $products[] = $result->toArray();
+        }
         $end = microtime(true);
         $memory = memory_get_usage(true);
         $memoryPeak = memory_get_peak_usage(true);

@@ -30,7 +30,8 @@ $router->get('/', function () {
 $router->get('/faker', function () {
     $faker = Faker\Factory::create();
     $inserts = [];
-    for ($i = 0; $i < 5000; $i++) {
+    $total = 500;
+    for ($i = 0; $i < $total; $i++) {
         $inserts[] = [
             'id' => $faker->uuid(),
             'name' => $faker->company,
@@ -48,6 +49,8 @@ $router->get('/faker', function () {
 $router->get('/products/take-1', 'ProductHub\LoadProductController@take1');
 
 $router->get('/products/take-2', 'ProductHub\LoadProductController@take2');
+
+$router->get('/products/take-3', 'ProductHub\LoadProductController@take3');
 
 $router->get('/ping', 'Core\PingController@handle');
 
