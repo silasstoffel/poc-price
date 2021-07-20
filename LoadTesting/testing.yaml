@@ -17,6 +17,6 @@ scenarios:
             description: 'artillery - Test Descrição'
             sku: 'artillery - Test sku'
             category_id: 'artillery - Test Categoria'
-            price: 'artillery - Test Preço'
+            price: 1.25
           expect:
             - statusCode: 201
