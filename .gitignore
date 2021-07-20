@@ -1,3 +1,7 @@
 !.gitkeep
 vendor
-#database.sqlite
+database.sqlite
+/docker/mysql
+/docker/nginx/logs
+/docker/php/logs
+

@@ -4,6 +4,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\DB;
 
 // Public routes
 $router->get('/', function () {
@@ -24,8 +25,30 @@ $router->get('/', function () {
             echo 'RequestException: ',$e->getResponse()->getBody();
         }
     }
-
 });
+
+$router->get('/faker', function () {
+    $faker = Faker\Factory::create();
+    $inserts = [];
+    for ($i = 0; $i < 5000; $i++) {
+        $inserts[] = [
+            'id' => $faker->uuid(),
+            'name' => $faker->company,
+            'description' => $faker->buildingNumber,
+            'sku' => $faker->uuid(),
+            'category_id' => $faker->buildingNumber,
+            'price' => rand(1, 50000),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+    }
+    DB::table('products')->insert($inserts);
+});
+
+$router->get('/products/take-1', 'ProductHub\LoadProductController@take1');
+
+$router->get('/products/take-2', 'ProductHub\LoadProductController@take2');
+
 $router->get('/ping', 'Core\PingController@handle');
 
 // Login
@@ -43,7 +66,5 @@ $router->group($v1, function () use($router) {
         $router->put('/{id}', 'EndpointController@update');
         $router->delete('/{id}', 'EndpointController@delete');
     });
-
-
 
 });

@@ -37,9 +37,23 @@ services:
       - pricing-network
     volumes:
       - ./:/app
-      - ./docker/php/config:/usr/local/etc/php
       - ./docker/php/logs/php:/var/log/php
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: 'pricing-mysql'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: pricing
+      MYSQL_ROOT_PASSWORD: pricing
+    networks:
+      - default
+      - pricing-network
 
 networks:
   pricing-network:
     driver: bridge
+    external: true
