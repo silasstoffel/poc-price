@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 // Public routes
 $router->get('/', function () {
+    sleep(10);
+    return '';
     //$data = ['message' => 'Pricing is running! :D'];
     //return response()->json($data, 200);
-
+/*
     $client = new Client();
     try {
         $request = $client->request('GET', 'https://api.github.com/users/silasstoffel-faker');
@@ -25,6 +27,7 @@ $router->get('/', function () {
             echo 'RequestException: ',$e->getResponse()->getBody();
         }
     }
+*/
 });
 
 $router->get('/faker', function () {

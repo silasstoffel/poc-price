@@ -70,6 +70,10 @@ $app->configure('app');
 |
 */
 
+ $app->middleware([
+     App\Http\Middleware\AfterMiddleware::class
+ ]);
+
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
